@@ -108,7 +108,67 @@ class EncryptTest < Minitest::Test
     end
   end
 
+  def test_message_encrypt_a_works_for_a_different_key
+
+  end
+
+  def test_message_encrypt_a_works_for_highest_possible_rotation_key_of_value_99
+    skip
+  end
+
+  def test_message_encrypt_a_works_for_lowest_possible_rotation_key_of_value_00
+    skip
+  end
+
+  def test_message_encrypt_a_works_where_a_rotation_key_value_is_less_than_10
+    skip
+  end
+
+  def test_message_encrypt_a_works_where_a_rotation_key_value_is_negative
+    skip
+  end
+
+ def test_message_encrypt_a_works_where_a_rotation_key_value_is_nil
+    skip
+  end
+
+
+  def test_message_encrypt_a_works_for_a_different_date
+    skip
+  end
+
+  def test_message_encrypt_a_works_for_highest_possible_date_value_31
+    skip
+  end
+
+  def test_message_encrypt_a_doesnt_work_for_date_values_greater_than_there_are_days_in_the_month_32
+    skip
+  end
+
+  def test_message_encrypt_a_doesnt_work_for_date_values_less_than_there_are_days_in_the_month_00
+    skip
+  end
+
+  def test_message_encrypt_a_doesnt_work_for_date_values_that_are_negative
+    skip
+  end
+
+ def test_message_encrypt_a_doesnt_work_for_date_values_that_are_nil
+    skip
+  end
+
+
+  def test_message_encrypt_a_works_for_lowest_possible_rotation_date_value_01
+    skip
+  end
+
+  def test_message_encrypt_a_works_where_a_rotation_key_value_is_less_than_10
+    skip
+  end
+
+
   def test_message_encrypt_b_works
+    skip
     encryptor.stub :key, ("41521") do
      assert_equal "i", encryptor.message_encrypt_b("020315", " not needed now")
     end
