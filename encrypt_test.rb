@@ -16,25 +16,25 @@ class EncryptTest < Minitest::Test
   end
 
   def test_a_rotation_takes_first_two_digits_of_key
-    encryptor.stub :key, (41521) do
+    encryptor.stub :key, ("41521") do
       assert_equal 41, encryptor.a_rotation
     end
   end
 
   def test_b_rotation_takes_second_two_digits_of_key
-    encryptor.stub :key, (41521) do
+    encryptor.stub :key, ("41521") do
       assert_equal 15, encryptor.b_rotation
     end
   end
 
   def test_c_rotation_takes_third_two_digits_of_key
-    encryptor.stub :key, (41521) do
+    encryptor.stub :key, ("41521") do
       assert_equal 52, encryptor.c_rotation
     end
   end
 
   def test_d_rotation_takes_fourth_two_digits_of_key
-    encryptor.stub :key, (41521) do
+    encryptor.stub :key, ("41521") do
       assert_equal 21, encryptor.d_rotation
     end
   end
@@ -67,26 +67,30 @@ class EncryptTest < Minitest::Test
     assert_equal 155, encryptor.index_position_map.last
   end
 
+  def test_message_only_contains_valid_characters
+     assert_equal "invalid character in message", encryptor.splits_every_four_chars("$not needed now")
+  end
+
   def test_message_splits_into_four_char_arrays
     assert_equal ["t", "."], encryptor.splits_every_four_chars("what the what.")[-1]
   end
 
   def test_character_to_index_position_key_returns_correct_value
-    encryptor.stub :key, (41521) do
+    encryptor.stub :key, ("41521") do
      assert_equal 2, encryptor.character_to_index_key("c")
     end
   end
 
   def test_a_offset_and_a_rotation_returns_number_of_positions_moved
     skip
-    encryptor.stub :key, (41521) do
+    encryptor.stub :key, ("41521") do
      assert_equal 50, encryptor.message_encrypt_a("020315", "not needed now")
     end
   end
 
   def test_char_index_key_and_a_rotation_and_offset_returns_correct_character_map_index_position
      skip
-     encryptor.stub :key, (41521) do
+     encryptor.stub :key, ("41521") do
      assert_equal 63, encryptor.message_encrypt_a("020315", "not needed now")
     end
   end
@@ -98,10 +102,17 @@ class EncryptTest < Minitest::Test
   # calculates the corresponding rotation & offset value
   # starting at the char_index_key value, the element moves forward by the rotation & offset value
   # returns that element/correct character
-  def test_combine_number_of_positions_moved_and_message_returns_correct_value
-    encryptor.stub :key, (41521) do
+  def test_combine_number_of_positions_moved_and_message_returns_correct_value_aka_message_encrypt_a_works
+    encryptor.stub :key, ("41521") do
      assert_equal "y", encryptor.message_encrypt_a("020315", "not needed now")
     end
   end
+
+  def test_message_encrypt_b_works
+    encryptor.stub :key, ("41521") do
+     assert_equal "i", encryptor.message_encrypt_b("020315", " not needed now")
+    end
+  end
+
 
 end

@@ -21,19 +21,19 @@
   end
 
   def a_rotation
-    key.to_s[0..1].to_i
+    key[0..1].to_i
   end
 
    def b_rotation
-    key.to_s[1..2].to_i
+    key[1..2].to_i
   end
 
    def c_rotation
-    key.to_s[2..3].to_i
+    key[2..3].to_i
   end
 
   def d_rotation
-    key.to_s[3..4].to_i
+    key[3..4].to_i
   end
 
   def squares_date(date)
@@ -81,8 +81,23 @@
 
   end
 
+  def valid_message(message)
+    characters = message.chars
+    characters.map do |char|
+      if character_map.include?(char)
+        true
+      else
+        false
+      end
+    end
+  end
+
   def splits_every_four_chars(message)
-    message.chars.each_slice(4).to_a
+    if valid_message(message).include?(false)
+      "invalid character in message"
+    else
+      message.chars.each_slice(4).to_a
+    end
   end
 
   def message_encrypt_a(date, message)
