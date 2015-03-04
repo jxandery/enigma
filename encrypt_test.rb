@@ -80,7 +80,7 @@ class EncryptTest < Minitest::Test
 
   def test_character_to_index_position_key_returns_correct_value
     encryptor.stub :key, (41521) do
-     assert_equal 3, encryptor.character_to_index_key("c")
+     assert_equal 2, encryptor.character_to_index_key("c")
     end
   end
 

@@ -28,13 +28,8 @@
   def character_to_index_key(input)
     unique_char_map = character_map[0..38]
     indexes = (0..38).to_a
-    char_index_key = unique_char_map.zip(indexes)
-    char_index_key.map do |element|
-      if element[0] == input
-        input = element[1]
-      end
-      input
-    end
+    char_index_key = Hash[unique_char_map.zip(indexes)]
+    char_index_key[input]
   end
 
   def a_rotation
