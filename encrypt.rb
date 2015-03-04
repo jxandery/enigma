@@ -20,18 +20,6 @@
     char_map * 4
   end
 
-  def index_position_map
-    last_index_position = character_map.length - 1
-    (0..last_index_position).to_a
-  end
-
-  def character_to_index_key(input)
-    unique_char_map = character_map[0..38]
-    indexes = (0..38).to_a
-    char_index_key = Hash[unique_char_map.zip(indexes)]
-    char_index_key[input]
-  end
-
   def a_rotation
     key.to_s[0..1].to_i
   end
@@ -72,6 +60,18 @@
     offsets[-1].to_i
   end
 
+  def index_position_map
+    last_index_position = character_map.length - 1
+    (0..last_index_position).to_a
+  end
+
+  def character_to_index_key(input)
+    unique_char_map = character_map[0..38]
+    indexes = (0..38).to_a
+    char_index_key = Hash[unique_char_map.zip(indexes)]
+    char_index_key[input]
+  end
+
 
 # you've got character map with index positions
 # "a" is index position 0
@@ -86,8 +86,9 @@
   end
 
   def message_encrypt_a(date, message)
-    sum =  a_rotation + a_offset(date)
-
+    input = splits_every_four_chars(message)[0]
+    index_position =  a_rotation + a_offset(date) + character_to_index_key(input[0])
+    character_map[index_position]
   end
 
  end

@@ -63,13 +63,6 @@ class EncryptTest < Minitest::Test
     assert_equal 5, encryptor.d_offset("020315")
   end
 
-  def test_a_offset_and_a_rotation_returns_number_of_positions_moved
-    skip
-    encryptor.stub :key, (41521) do
-     assert_equal 50, encryptor.message_encrypt_a("020315")
-    end
-  end
-
   def test_index_position_map_returns_character_map_length
     assert_equal 155, encryptor.index_position_map.last
   end
@@ -84,5 +77,31 @@ class EncryptTest < Minitest::Test
     end
   end
 
+  def test_a_offset_and_a_rotation_returns_number_of_positions_moved
+    skip
+    encryptor.stub :key, (41521) do
+     assert_equal 50, encryptor.message_encrypt_a("020315", "not needed now")
+    end
+  end
+
+  def test_char_index_key_and_a_rotation_and_offset_returns_correct_character_map_index_position
+     skip
+     encryptor.stub :key, (41521) do
+     assert_equal 63, encryptor.message_encrypt_a("020315", "not needed now")
+    end
+  end
+
+  # reads message
+  # splits into array of four characters arrays
+  # takes the first element of first array
+  # finds the corresponding char_index_key value
+  # calculates the corresponding rotation & offset value
+  # starting at the char_index_key value, the element moves forward by the rotation & offset value
+  # returns that element/correct character
+  def test_combine_number_of_positions_moved_and_message_returns_correct_value
+    encryptor.stub :key, (41521) do
+     assert_equal "y", encryptor.message_encrypt_a("020315", "not needed now")
+    end
+  end
 
 end
