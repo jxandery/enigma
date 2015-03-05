@@ -72,10 +72,6 @@
     char_index_key[input]
   end
 
-  def decode_four_chars
-
-  end
-
   def valid_message(message)
     characters = message.chars
     characters.map do |char|
@@ -120,11 +116,16 @@
   end
 
   def batch_encrypt(date, message)
-   [message_encrypt_a(date, message),
+    batch = [message_encrypt_a(date, message),
     message_encrypt_b(date, message),
     message_encrypt_c(date, message),
     message_encrypt_d(date, message)]
   end
 
+  def encrypting(date, message, counter=0)
+    # until counter > num of 4 char elements in array
+    batch_encrypt(date, message, counter)
+    counter += 1
 
+    end
  end

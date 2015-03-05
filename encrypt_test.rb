@@ -203,4 +203,11 @@ class EncryptTest < Minitest::Test
       assert_equal ["y",5,8,"x"], encryptor.batch_encrypt("020315", "not needed now")
     end
   end
+
+  def test_can_encrypt_two_batches
+    skip
+    encryptor.stub :key, ("41521") do
+      assert_equal ["y",5,8,"x"], encryptor.encrypting("020315", "not need")
+    end
+  end
 end
