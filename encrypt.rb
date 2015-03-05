@@ -101,4 +101,11 @@
     character_map[index_position]
   end
 
+  def message_encrypt_b(date, message)
+    input = splits_every_four_chars(message)[1]
+    index_position =  b_rotation + b_offset(date) + character_to_index_key(input[1])
+    character_map[index_position]
+  end
+
+
  end
