@@ -119,5 +119,12 @@
     character_map[index_position]
   end
 
+  def batch_encrypt(date, message)
+   [message_encrypt_a(date, message),
+    message_encrypt_b(date, message),
+    message_encrypt_c(date, message),
+    message_encrypt_d(date, message)]
+  end
+
 
  end
