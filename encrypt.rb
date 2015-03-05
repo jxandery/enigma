@@ -72,11 +72,6 @@
     char_index_key[input]
   end
 
-
-# you've got character map with index positions
-# "a" is index position 0
-# find the index position for the letter
-# the sum needs to be added to the index position
   def decode_four_chars
 
   end

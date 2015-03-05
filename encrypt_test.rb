@@ -18,6 +18,16 @@ class EncryptTest < Minitest::Test
     assert Encrypt
   end
 
+  def test_formatted_key_is_a_string
+    encryptor = Encrypt.new
+    assert_equal String, encryptor.key.class
+  end
+
+  def test_formatted_key_is_five_characters_long
+     encryptor = Encrypt.new
+     assert_equal 5, encryptor.key.length
+  end
+
   def test_a_rotation_takes_first_two_digits_of_key
     encryptor.stub :key, ("41521") do
       assert_equal 41, encryptor.a_rotation
@@ -40,6 +50,26 @@ class EncryptTest < Minitest::Test
     encryptor.stub :key, ("41521") do
       assert_equal 21, encryptor.d_rotation
     end
+  end
+
+  def test_date_input_is_a_string
+    skip
+    encryptor = Encrypt.new
+    assert_equal string, encryptor.key.class
+  end
+
+  def test_date_input_length_is_six_characters
+    skip
+    encryptor = Encrypt.new
+    assert_equal String, encryptor.key.class
+
+  end
+
+  def test_date_input_is_a_fixnum_when_converted_to_integer
+    skip
+    encryptor = Encrypt.new
+    assert_equal String, encryptor.key.class
+
   end
 
   def test_method_squares_date_with_first_char_as_zero
@@ -132,33 +162,6 @@ class EncryptTest < Minitest::Test
   def test_message_encrypt_a_works_for_a_different_date
     encryptor.stub :key, ("41521") do
       assert_equal "p", encryptor.message_encrypt_a("220388", "not needed now")
-    end
-  end
-
-  def test_message_encrypt_a_works_for_highest_possible_date_value_31
-    encryptor.stub :key, ("41521") do
-      assert_equal "x", encryptor.message_encrypt_a("310315", "not needed now")
-    end
-  end
-
-  def test_message_encrypt_a_doesnt_work_for_date_values_greater_than_there_are_days_in_the_month_32
-    skip
-    encryptor.stub :key, ("41521") do
-      assert_equal "y", encryptor.message_encrypt_a("320315", "not needed now")
-    end
-  end
-
-  def test_message_encrypt_a_doesnt_work_for_date_values_less_than_there_are_days_in_the_month_00
-    skip
-    encryptor.stub :key, ("41521") do
-      assert_equal "y", encryptor.message_encrypt_a("000315", "not needed now")
-    end
-  end
-
-  def test_message_encrypt_a_doesnt_work_for_date_values_that_are_negative
-    skip
-    encryptor.stub :key, ("41521") do
-      assert_equal "y", encryptor.message_encrypt_a("-020315", "not needed now")
     end
   end
 
