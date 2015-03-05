@@ -98,13 +98,6 @@ class EncryptTest < Minitest::Test
     end
   end
 
-  # reads message
-  # splits into array of four characters arrays
-  # takes the first element of first array
-  # finds the corresponding char_index_key value
-  # calculates the corresponding rotation & offset value
-  # starting at the char_index_key value, the element moves forward by the rotation & offset value
-  # returns that element/correct character
   def test_combine_number_of_positions_moved_and_message_returns_correct_value_aka_message_encrypt_a_works
     encryptor.stub :key, ("41521") do
       assert_equal "y", encryptor.message_encrypt_a("020315", "not needed now")
@@ -136,31 +129,15 @@ class EncryptTest < Minitest::Test
     end
   end
 
-  def test_message_encrypt_a_works_where_a_rotation_key_value_is_negative
-    encryptor.stub :key, ("-41521") do
-      assert_equal "y", encryptor.message_encrypt_a("020315", "not needed now")
-    end
-  end
-
- def test_message_encrypt_a_works_where_a_rotation_key_value_is_nil
-   skip
-   encryptor.stub :key, (nil) do
-     assert_equal "y", encryptor.message_encrypt_a("020315", "not needed now")
-   end
-  end
-
-
   def test_message_encrypt_a_works_for_a_different_date
-    skip
     encryptor.stub :key, ("41521") do
-      assert_equal "y", encryptor.message_encrypt_a("220315", "not needed now")
+      assert_equal "p", encryptor.message_encrypt_a("220388", "not needed now")
     end
   end
 
   def test_message_encrypt_a_works_for_highest_possible_date_value_31
-    skip
     encryptor.stub :key, ("41521") do
-      assert_equal "y", encryptor.message_encrypt_a("310315", "not needed now")
+      assert_equal "x", encryptor.message_encrypt_a("310315", "not needed now")
     end
   end
 

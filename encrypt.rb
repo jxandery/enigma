@@ -7,16 +7,7 @@
     @character_map = character_map
   end
 
-  def validate_key
-    valid_key = key.chars
-  end
-
-  def validate_date
-
-  end
-
   def key
-#    validate_key
     new_key = (0..99999).to_a.sample
     new_key.to_s.rjust(5,"0")
   end
