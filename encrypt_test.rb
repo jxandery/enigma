@@ -1,3 +1,6 @@
+require 'simplecov'
+SimpleCov.start
+
 gem 'minitest', '~> 5.2'
 require 'minitest/autorun'
 require 'minitest/pride'
@@ -84,14 +87,14 @@ class EncryptTest < Minitest::Test
   def test_a_offset_and_a_rotation_returns_number_of_positions_moved
     skip
     encryptor.stub :key, ("41521") do
-     assert_equal 50, encryptor.message_encrypt_a("020315", "not needed now")
+      assert_equal 50, encryptor.message_encrypt_a("020315", "not needed now")
     end
   end
 
   def test_char_index_key_and_a_rotation_and_offset_returns_correct_character_map_index_position
-     skip
-     encryptor.stub :key, ("41521") do
-     assert_equal 63, encryptor.message_encrypt_a("020315", "not needed now")
+    skip
+    encryptor.stub :key, ("41521") do
+      assert_equal 63, encryptor.message_encrypt_a("020315", "not needed now")
     end
   end
 
@@ -104,66 +107,111 @@ class EncryptTest < Minitest::Test
   # returns that element/correct character
   def test_combine_number_of_positions_moved_and_message_returns_correct_value_aka_message_encrypt_a_works
     encryptor.stub :key, ("41521") do
-     assert_equal "y", encryptor.message_encrypt_a("020315", "not needed now")
+      assert_equal "y", encryptor.message_encrypt_a("020315", "not needed now")
     end
   end
 
   def test_message_encrypt_a_works_for_a_different_key
-
+   encryptor.stub :key, ("87521") do
+     assert_equal 5, encryptor.message_encrypt_a("020315", "not needed now")
+   end
   end
 
   def test_message_encrypt_a_works_for_highest_possible_rotation_key_of_value_99
-    skip
+    encryptor.stub :key, ("99521") do
+      assert_equal "e", encryptor.message_encrypt_a("020315", "not needed now")
+    end
   end
 
   def test_message_encrypt_a_works_for_lowest_possible_rotation_key_of_value_00
-    skip
+    encryptor.stub :key, ("00521") do
+      assert_equal "w", encryptor.message_encrypt_a("020315", "not needed now")
+    end
   end
 
   def test_message_encrypt_a_works_where_a_rotation_key_value_is_less_than_10
     skip
+    encryptor.stub :key, ("03521") do
+      assert_equal "what is this craziness", encryptor.message_encrypt_a("020315", "not needed now")
+    end
   end
 
   def test_message_encrypt_a_works_where_a_rotation_key_value_is_negative
-    skip
+    encryptor.stub :key, ("-41521") do
+      assert_equal "y", encryptor.message_encrypt_a("020315", "not needed now")
+    end
   end
 
  def test_message_encrypt_a_works_where_a_rotation_key_value_is_nil
-    skip
+   skip
+   encryptor.stub :key, (nil) do
+     assert_equal "y", encryptor.message_encrypt_a("020315", "not needed now")
+   end
   end
 
 
   def test_message_encrypt_a_works_for_a_different_date
     skip
+    encryptor.stub :key, ("41521") do
+      assert_equal "y", encryptor.message_encrypt_a("220315", "not needed now")
+    end
   end
 
   def test_message_encrypt_a_works_for_highest_possible_date_value_31
     skip
+    encryptor.stub :key, ("41521") do
+      assert_equal "y", encryptor.message_encrypt_a("310315", "not needed now")
+    end
   end
 
   def test_message_encrypt_a_doesnt_work_for_date_values_greater_than_there_are_days_in_the_month_32
     skip
+    encryptor.stub :key, ("41521") do
+      assert_equal "y", encryptor.message_encrypt_a("320315", "not needed now")
+    end
   end
 
   def test_message_encrypt_a_doesnt_work_for_date_values_less_than_there_are_days_in_the_month_00
     skip
+    encryptor.stub :key, ("41521") do
+      assert_equal "y", encryptor.message_encrypt_a("000315", "not needed now")
+    end
   end
 
   def test_message_encrypt_a_doesnt_work_for_date_values_that_are_negative
     skip
+    encryptor.stub :key, ("41521") do
+      assert_equal "y", encryptor.message_encrypt_a("-020315", "not needed now")
+    end
   end
 
  def test_message_encrypt_a_doesnt_work_for_date_values_that_are_nil
-    skip
+   skip
+   encryptor.stub :key, ("41521") do
+     assert_equal "y", encryptor.message_encrypt_a(nil, "not needed now")
+   end
   end
 
 
   def test_message_encrypt_a_works_for_lowest_possible_rotation_date_value_01
     skip
+    encryptor.stub :key, ("41521") do
+      assert_equal "y", encryptor.message_encrypt_a("010315", "not needed now")
+    end
   end
 
   def test_message_encrypt_a_works_where_a_rotation_key_value_is_less_than_10
     skip
+    encryptor.stub :key, ("04521") do
+      assert_equal "y", encryptor.message_encrypt_a("020315", "not needed now")
+    end
+  end
+
+  def test_message_encrypt_a_works_for_highest_possible_rotation_key_of_value_99_and_last_unique_character_of_comma
+    skip
+    encryptor.stub :key, ("99521") do
+      assert_equal "y", encryptor.message_encrypt_a("020315", ",not needed now")
+    end
   end
 
 
