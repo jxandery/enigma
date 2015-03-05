@@ -182,9 +182,20 @@ class EncryptTest < Minitest::Test
 
   def test_message_encrypt_b_works
     encryptor.stub :key, ("41521") do
-     assert_equal "i", encryptor.message_encrypt_b("020315", "not needed now")
+     assert_equal 5, encryptor.message_encrypt_b("020315", "not needed now")
     end
   end
 
+  def test_message_encrypt_c_works
+    encryptor.stub :key, ("41521") do
+     assert_equal 8, encryptor.message_encrypt_c("020315", "not needed now")
+    end
+  end
+
+  def test_message_encrypt_d_works
+    encryptor.stub :key, ("41521") do
+     assert_equal "x", encryptor.message_encrypt_d("020315", "not needed now")
+    end
+  end
 
 end
