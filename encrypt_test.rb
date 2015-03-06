@@ -99,11 +99,7 @@ class EncryptTest < Minitest::Test
   end
 
   def test_message_only_contains_valid_characters
-     assert_equal "invalid character in message", encryptor.splits_every_four_chars("$not needed now")
-  end
-
-  def test_message_splits_into_four_char_arrays
-    assert_equal ["t", "."], encryptor.splits_every_four_chars("what the what.")[-1]
+     assert_equal "invalid character in message", encryptor.invalidate_message("$not")
   end
 
   def test_character_to_index_position_key_returns_correct_value
@@ -115,99 +111,102 @@ class EncryptTest < Minitest::Test
   def test_a_offset_and_a_rotation_returns_number_of_positions_moved
     skip
     encryptor.stub :key, ("41521") do
-      assert_equal 50, encryptor.message_encrypt_a("020315", "not needed now")
+      assert_equal 50, encryptor.message_encrypt_a("020315", "not ")
     end
   end
 
   def test_char_index_key_and_a_rotation_and_offset_returns_correct_character_map_index_position
     skip
     encryptor.stub :key, ("41521") do
-      assert_equal 63, encryptor.message_encrypt_a("020315", "not needed now")
+      assert_equal 63, encryptor.message_encrypt_a("020315", "not ")
     end
   end
 
   def test_combine_number_of_positions_moved_and_message_returns_correct_value_aka_message_encrypt_a_works
     encryptor.stub :key, ("41521") do
-      assert_equal "y", encryptor.message_encrypt_a("020315", "not needed now")
+      assert_equal "y", encryptor.message_encrypt_a("020315", "not ")
     end
   end
 
   def test_message_encrypt_a_works_for_a_different_key
    encryptor.stub :key, ("87521") do
-     assert_equal 5, encryptor.message_encrypt_a("020315", "not needed now")
+     assert_equal 5, encryptor.message_encrypt_a("020315", "not ")
    end
   end
 
   def test_message_encrypt_a_works_for_highest_possible_rotation_key_of_value_99
     encryptor.stub :key, ("99521") do
-      assert_equal "e", encryptor.message_encrypt_a("020315", "not needed now")
+      assert_equal "e", encryptor.message_encrypt_a("020315", "not ")
     end
   end
 
   def test_message_encrypt_a_works_for_lowest_possible_rotation_key_of_value_00
     encryptor.stub :key, ("00521") do
-      assert_equal "w", encryptor.message_encrypt_a("020315", "not needed now")
+      assert_equal "w", encryptor.message_encrypt_a("020315", "not ")
     end
   end
 
   def test_message_encrypt_a_works_for_a_different_date
     encryptor.stub :key, ("41521") do
-      assert_equal "p", encryptor.message_encrypt_a("220388", "not needed now")
+      assert_equal "p", encryptor.message_encrypt_a("220388", "not ")
     end
   end
 
   def test_message_encrypt_a_works_for_lowest_possible_offset_value_0
     encryptor.stub :key, ("41521") do
-      assert_equal "p", encryptor.message_encrypt_a("010100", "not needed now")
+      assert_equal "p", encryptor.message_encrypt_a("010100", "not ")
     end
   end
 
   def test_message_encrypt_a_works_for_highest_possible_offset_value_9
     encryptor.stub :key, ("00521") do
-      assert_equal "w", encryptor.message_encrypt_a("020315", "not needed now")
+      assert_equal "w", encryptor.message_encrypt_a("020315", "not ")
     end
   end
 
   def test_message_encrypt_a_works_for_highest_possible_rotation_value_00_highest_possible_offset_value_0_and_first_unique_character_a
     encryptor.stub :key, ("00521") do
-      assert_equal "a", encryptor.message_encrypt_a("010100", "a not needed now")
+      assert_equal "a", encryptor.message_encrypt_a("010100", "a not")
     end
   end
 
   def test_message_encrypt_a_works_for_highest_possible_rotation_value_99_highest_possible_offset_value_9_and_last_unique_character_of_comma
     encryptor.stub :key, ("99521") do
-      assert_equal 3, encryptor.message_encrypt_a("020315", ",not needed now")
+      assert_equal 3, encryptor.message_encrypt_a("020315", ",not")
     end
   end
 
   def test_message_encrypt_b_works
     encryptor.stub :key, ("41521") do
-      assert_equal 5, encryptor.message_encrypt_b("020315", "not needed now")
+      assert_equal 5, encryptor.message_encrypt_b("020315", "not ")
     end
   end
 
   def test_message_encrypt_c_works
     encryptor.stub :key, ("41521") do
-      assert_equal 8, encryptor.message_encrypt_c("020315", "not needed now")
+      assert_equal 8, encryptor.message_encrypt_c("020315", "not ")
     end
   end
 
   def test_message_encrypt_d_works
     encryptor.stub :key, ("41521") do
-      assert_equal "x", encryptor.message_encrypt_d("020315", "not needed now")
+      assert_equal "x", encryptor.message_encrypt_d("020315", "not ")
     end
   end
 
   def test_first_four_characters_as_a_group_encrypts
     encryptor.stub :key, ("41521") do
-      assert_equal ["y",5,8,"x"], encryptor.batch_encrypt("020315", "not needed now")
+      assert_equal ["y",5,8,"x"], encryptor.batch_encrypt("020315", "not ")
     end
   end
 
+  def test_message_splits_into_four_char_arrays
+    assert_equal "t.", encryptor.split_into_batches("what the what.")[-1]
+  end
+
   def test_can_encrypt_two_batches
-    skip
     encryptor.stub :key, ("41521") do
-      assert_equal ["y",5,8,"x"], encryptor.encrypting("020315", "not need")
+      assert_equal ["yvt3y58x"], encryptor.encrypting("020315", "neednot ")
     end
   end
 end

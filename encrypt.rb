@@ -1,10 +1,11 @@
 
  class Encrypt
-  attr_reader :key, :character_map
+  attr_reader :key, :character_map, :encrypted_message
 
   def initialize
     @key = key
     @character_map = character_map
+    @encrypted_message = []
   end
 
   def key
@@ -72,7 +73,7 @@
     char_index_key[input]
   end
 
-  def valid_message(message)
+  def check_for_invalid_chars(message)
     characters = message.chars
     characters.map do |char|
       if character_map.include?(char)
@@ -83,35 +84,35 @@
     end
   end
 
-  def splits_every_four_chars(message)
-    if valid_message(message).include?(false)
+  def invalidate_message(message)
+    if check_for_invalid_chars(message).include?(false)
       "invalid character in message"
-    else
-      message.chars.each_slice(4).to_a
     end
   end
 
+  # def message_encrypt_a(date, message)
+  #   input = splits_every_four_chars(message)[0]
+  #   index_position =  a_rotation + a_offset(date) + character_to_index_key(input[0])
+  #   character_map[index_position]
+  # end
+
   def message_encrypt_a(date, message)
-    input = splits_every_four_chars(message)[0]
-    index_position =  a_rotation + a_offset(date) + character_to_index_key(input[0])
+    index_position =  a_rotation + a_offset(date) + character_to_index_key(message[0])
     character_map[index_position]
   end
 
   def message_encrypt_b(date, message)
-    input = splits_every_four_chars(message)[0]
-    index_position =  b_rotation + b_offset(date) + character_to_index_key(input[1])
+    index_position =  b_rotation + b_offset(date) + character_to_index_key(message[1])
     character_map[index_position]
   end
 
   def message_encrypt_c(date, message)
-    input = splits_every_four_chars(message)[0]
-    index_position =  c_rotation + c_offset(date) + character_to_index_key(input[2])
+    index_position =  c_rotation + c_offset(date) + character_to_index_key(message[2])
     character_map[index_position]
   end
 
   def message_encrypt_d(date, message)
-    input = splits_every_four_chars(message)[0]
-    index_position =  d_rotation + d_offset(date) + character_to_index_key(input[3])
+    index_position =  d_rotation + d_offset(date) + character_to_index_key(message[3])
     character_map[index_position]
   end
 
@@ -120,12 +121,20 @@
     message_encrypt_b(date, message),
     message_encrypt_c(date, message),
     message_encrypt_d(date, message)]
+    require 'pry'; binding.pry
   end
 
-  def encrypting(date, message, counter=0)
-    # until counter > num of 4 char elements in array
-    batch_encrypt(date, message, counter)
-    counter += 1
+  def split_into_batches(message) #"what the what."
+    message.scan /.{1,4}/         #["what", " the", " wha", "t."]
+  end
+
+  def encrypting(date, message)
+    batches = split_into_batches(message) # ["what"," the"," wha","t.""]
+    batches.map do |batch|                # ["what"]
+      @encrypted_message << batch.batch_encrypt(date, message)  # ["y",5,8,"x"]
+
+    end
+    encrypted_message = encrypted_message.join
 
     end
  end
