@@ -121,7 +121,6 @@
     message_encrypt_b(date, message),
     message_encrypt_c(date, message),
     message_encrypt_d(date, message)]
-    require 'pry'; binding.pry
   end
 
   def split_into_batches(message) #"what the what."
@@ -131,10 +130,10 @@
   def encrypting(date, message)
     batches = split_into_batches(message) # ["what"," the"," wha","t.""]
     batches.map do |batch|                # ["what"]
-      @encrypted_message << batch.batch_encrypt(date, message)  # ["y",5,8,"x"]
+      @encrypted_message << batch_encrypt(date, batch)  # ["y",5,8,"x"]
 
     end
-    encrypted_message = encrypted_message.join
+    @encrypted_message = encrypted_message.join
 
     end
  end

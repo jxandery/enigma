@@ -206,7 +206,7 @@ class EncryptTest < Minitest::Test
 
   def test_can_encrypt_two_batches
     encryptor.stub :key, ("41521") do
-      assert_equal ["yvt3y58x"], encryptor.encrypting("020315", "neednot ")
+      assert_equal "yvt3y58x", encryptor.encrypting("020315", "neednot ")
     end
   end
 end
