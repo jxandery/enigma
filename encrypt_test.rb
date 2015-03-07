@@ -14,6 +14,10 @@ class RotatorTest < Minitest::Test
     @rotator = Rotator.new
   end
 
+  def test_it_exists
+    assert Rotator
+  end
+
   def test_formatted_key_is_a_string
     @rotator = Rotator.new
     assert_equal String, rotator.key.class
@@ -50,6 +54,60 @@ class RotatorTest < Minitest::Test
 
 end
 
+class OffsetTest < Minitest::Test
+  attr_reader :offset
+
+  def setup
+    @offset = Offset.new
+  end
+
+  def test_it_exists
+    assert Offset
+  end
+
+  def test_date_input_is_a_string
+    skip
+    offset = Offset.new
+    assert_equal string, offset.date_key.class
+  end
+
+  def test_date_input_length_is_six_characters
+    skip skip
+    offset = Offset.new
+    assert_equal String, offset.date_key.class
+  end
+
+  def test_date_input_is_a_fixnum_when_converted_to_integer
+    skip skip
+    offset = Offset.new
+    assert_equal String, offset.date_key.class
+  end
+
+  def test_method_squares_date_with_first_char_as_zero
+    assert_equal 412699225, offset.squares_date("020315")
+  end
+
+  def test_method_squares_date_with_first_char_not_zero
+    assert_equal 14475699225, offset.squares_date("120315")
+  end
+
+  def test_a_offset_is_fourth_digit_from_end
+    assert_equal 9, offset.a_offset("020315")
+  end
+
+  def test_b_offset_is_third_digit_from_end
+    assert_equal 2, offset.b_offset("020315")
+  end
+
+  def test_c_offset_is_second_digit_from_end
+    assert_equal 2, offset.c_offset("020315")
+  end
+
+  def test_d_offset_is_last_digit
+    assert_equal 5, offset.d_offset("020315")
+  end
+
+end
 
 class EncryptTest < Minitest::Test
   attr_reader :encryptor
@@ -62,66 +120,15 @@ class EncryptTest < Minitest::Test
     assert Encrypt
   end
 
-  def test_date_input_is_a_string
-    skip skip
-    encryptor = Encrypt.new
-    assert_equal string, encryptor.key.class
-  end
-
-  def test_date_input_length_is_six_characters
-    skip skip
-    encryptor = Encrypt.new
-    assert_equal String, encryptor.key.class
-  end
-
-  def test_date_input_is_a_fixnum_when_converted_to_integer
-    skip skip
-    encryptor = Encrypt.new
-    assert_equal String, encryptor.key.class
-  end
-
-  def test_method_squares_date_with_first_char_as_zero
-    skip
-    assert_equal 412699225, encryptor.squares_date("020315")
-  end
-
-  def test_method_squares_date_with_first_char_not_zero
-    skip
-    assert_equal 14475699225, encryptor.squares_date("120315")
-  end
-
-  def test_a_offset_is_fourth_digit_from_end
-    skip
-    assert_equal 9, encryptor.a_offset("020315")
-  end
-
-  def test_b_offset_is_third_digit_from_end
-    skip
-    assert_equal 2, encryptor.b_offset("020315")
-  end
-
-  def test_c_offset_is_second_digit_from_end
-    skip
-    assert_equal 2, encryptor.c_offset("020315")
-  end
-
-  def test_d_offset_is_last_digit
-    skip
-    assert_equal 5, encryptor.d_offset("020315")
-  end
-
   def test_index_position_map_returns_character_map_length
-    skip
     assert_equal 155, encryptor.index_position_map.last
   end
 
   def test_message_only_contains_valid_characters
-    skip
      assert_equal "invalid character in message", encryptor.invalidate_message("$not")
   end
 
   def test_character_to_index_position_key_returns_correct_value
-    skip
     encryptor.stub :key, ("41521") do
      assert_equal 2, encryptor.character_to_index_key("c")
     end

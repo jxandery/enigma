@@ -1,5 +1,5 @@
 class Rotator
-  attr_reader :key, :encrypt
+  attr_reader :key
 
   def initialize
     @key = key
@@ -28,21 +28,8 @@ class Rotator
 
 end
 
-class Encrypt
-  attr_reader :character_map, :encrypted_message
+class Offset
 
-  def initialize
-    @character_map = character_map
-    @encrypted_message = []
-  end
-
-  def character_map
-    char_map = ("a".."z").to_a + (0..9).to_a
-    char_map << " "
-    char_map << "."
-    char_map << ","
-    char_map * 4
-  end
 
   def squares_date(date)
       (date.to_i) **2
@@ -66,6 +53,23 @@ class Encrypt
   def d_offset(date)
     offsets = squares_date(date).to_s.chars
     offsets[-1].to_i
+  end
+end
+
+class Encrypt
+  attr_reader :character_map, :encrypted_message
+
+  def initialize
+    @character_map = character_map
+    @encrypted_message = []
+  end
+
+  def character_map
+    char_map = ("a".."z").to_a + (0..9).to_a
+    char_map << " "
+    char_map << "."
+    char_map << ","
+    char_map * 4
   end
 
   def index_position_map
@@ -132,9 +136,7 @@ class Encrypt
     batches = split_into_batches(message)
     batches.map do |batch|
       @encrypted_message << batch_encrypt(date, batch)
-
     end
     @encrypted_message = encrypted_message.join
-
     end
  end
