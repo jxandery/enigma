@@ -1,24 +1,13 @@
-
- class Encrypt
-  attr_reader :key, :character_map, :encrypted_message
+class Rotator
+  attr_reader :key, :encrypt
 
   def initialize
     @key = key
-    @character_map = character_map
-    @encrypted_message = []
   end
 
   def key
     new_key = (0..99999).to_a.sample
     new_key.to_s.rjust(5,"0")
-  end
-
-  def character_map
-    char_map = ("a".."z").to_a + (0..9).to_a
-    char_map << " "
-    char_map << "."
-    char_map << ","
-    char_map * 4
   end
 
   def a_rotation
@@ -35,6 +24,24 @@
 
   def d_rotation
     key[3..4].to_i
+  end
+
+end
+
+class Encrypt
+  attr_reader :character_map, :encrypted_message
+
+  def initialize
+    @character_map = character_map
+    @encrypted_message = []
+  end
+
+  def character_map
+    char_map = ("a".."z").to_a + (0..9).to_a
+    char_map << " "
+    char_map << "."
+    char_map << ","
+    char_map * 4
   end
 
   def squares_date(date)
@@ -90,12 +97,6 @@
     end
   end
 
-  # def message_encrypt_a(date, message)
-  #   input = splits_every_four_chars(message)[0]
-  #   index_position =  a_rotation + a_offset(date) + character_to_index_key(input[0])
-  #   character_map[index_position]
-  # end
-
   def message_encrypt_a(date, message)
     index_position =  a_rotation + a_offset(date) + character_to_index_key(message[0])
     character_map[index_position]
@@ -123,14 +124,14 @@
     message_encrypt_d(date, message)]
   end
 
-  def split_into_batches(message) #"what the what."
-    message.scan /.{1,4}/         #["what", " the", " wha", "t."]
+  def split_into_batches(message)
+    message.scan /.{1,4}/
   end
 
   def encrypting(date, message)
-    batches = split_into_batches(message) # ["what"," the"," wha","t.""]
-    batches.map do |batch|                # ["what"]
-      @encrypted_message << batch_encrypt(date, batch)  # ["y",5,8,"x"]
+    batches = split_into_batches(message)
+    batches.map do |batch|
+      @encrypted_message << batch_encrypt(date, batch)
 
     end
     @encrypted_message = encrypted_message.join
