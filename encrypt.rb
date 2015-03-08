@@ -30,7 +30,6 @@ end
 
 class Offset
 
-
   def squares_date(date)
       (date.to_i) **2
   end
@@ -57,11 +56,13 @@ class Offset
 end
 
 class Encrypt
-  attr_reader :character_map, :encrypted_message
+  attr_reader :character_map, :encrypted_message, :rotator, :offset
 
-  def initialize
+  def initialize(rotator = Rotator.new)
     @character_map = character_map
     @encrypted_message = []
+    @rotator = rotator
+    @offset = Offset.new
   end
 
   def character_map
@@ -102,22 +103,22 @@ class Encrypt
   end
 
   def message_encrypt_a(date, message)
-    index_position =  a_rotation + a_offset(date) + character_to_index_key(message[0])
+    index_position =  rotator.a_rotation + offset.a_offset(date) + character_to_index_key(message[0])
     character_map[index_position]
   end
 
   def message_encrypt_b(date, message)
-    index_position =  b_rotation + b_offset(date) + character_to_index_key(message[1])
+    index_position =  rotator.b_rotation + offset.b_offset(date) + character_to_index_key(message[1])
     character_map[index_position]
   end
 
   def message_encrypt_c(date, message)
-    index_position =  c_rotation + c_offset(date) + character_to_index_key(message[2])
+    index_position =  rotator.c_rotation + offset.c_offset(date) + character_to_index_key(message[2])
     character_map[index_position]
   end
 
   def message_encrypt_d(date, message)
-    index_position =  d_rotation + d_offset(date) + character_to_index_key(message[3])
+    index_position =  rotator.d_rotation + offset.d_offset(date) + character_to_index_key(message[3])
     character_map[index_position]
   end
 
@@ -139,4 +140,5 @@ class Encrypt
     end
     @encrypted_message = encrypted_message.join
     end
+
  end

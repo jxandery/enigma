@@ -110,10 +110,12 @@ class OffsetTest < Minitest::Test
 end
 
 class EncryptTest < Minitest::Test
-  attr_reader :encryptor
+  attr_reader :encryptor, :rotator, :offset
 
   def setup
-    @encryptor = Encrypt.new
+    @rotator = Rotator.new
+    @encryptor = Encrypt.new(@rotator)
+    @offset = Offset.new
   end
 
   def test_it_exists
@@ -129,127 +131,121 @@ class EncryptTest < Minitest::Test
   end
 
   def test_character_to_index_position_key_returns_correct_value
-    encryptor.stub :key, ("41521") do
-     assert_equal 2, encryptor.character_to_index_key("c")
-    end
+    assert_equal 2, encryptor.character_to_index_key("c")
   end
 
   def test_a_offset_and_a_rotation_returns_number_of_positions_moved
     skip
-    skip
-    encryptor.stub :key, ("41521") do
+    rotator.stub :a_rotation, ("41521") do
       assert_equal 50, encryptor.message_encrypt_a("020315", "not ")
     end
   end
 
   def test_char_index_key_and_a_rotation_and_offset_returns_correct_character_map_index_position
     skip
-    skip
-    encryptor.stub :key, ("41521") do
+    rotator.stub :a_rotation, ("41521") do
       assert_equal 63, encryptor.message_encrypt_a("020315", "not ")
     end
   end
 
   def test_combine_number_of_positions_moved_and_message_returns_correct_value_aka_message_encrypt_a_works
-    skip
-    encryptor.stub :key, ("41521") do
+    rotator.stub :a_rotation, (41) do
       assert_equal "y", encryptor.message_encrypt_a("020315", "not ")
     end
   end
 
   def test_message_encrypt_a_works_for_a_different_key
-    skip
-   encryptor.stub :key, ("87521") do
+   rotator.stub :a_rotation, (87) do
      assert_equal 5, encryptor.message_encrypt_a("020315", "not ")
    end
   end
 
   def test_message_encrypt_a_works_for_highest_possible_rotation_key_of_value_99
-    skip
-    encryptor.stub :key, ("99521") do
+    rotator.stub :a_rotation, (99) do
       assert_equal "e", encryptor.message_encrypt_a("020315", "not ")
     end
   end
 
   def test_message_encrypt_a_works_for_lowest_possible_rotation_key_of_value_00
-    skip
-    encryptor.stub :key, ("00521") do
+    rotator.stub :a_rotation, (00) do
       assert_equal "w", encryptor.message_encrypt_a("020315", "not ")
     end
   end
 
   def test_message_encrypt_a_works_for_a_different_date
-    skip
-    encryptor.stub :key, ("41521") do
+    rotator.stub :a_rotation, (41) do
       assert_equal "p", encryptor.message_encrypt_a("220388", "not ")
     end
   end
 
   def test_message_encrypt_a_works_for_lowest_possible_offset_value_0
-    skip
-    encryptor.stub :key, ("41521") do
+    rotator.stub :a_rotation, (41) do
       assert_equal "p", encryptor.message_encrypt_a("010100", "not ")
     end
   end
 
   def test_message_encrypt_a_works_for_highest_possible_offset_value_9
-    skip
-    encryptor.stub :key, ("00521") do
+    rotator.stub :a_rotation, (00) do
       assert_equal "w", encryptor.message_encrypt_a("020315", "not ")
     end
   end
 
   def test_message_encrypt_a_works_for_highest_possible_rotation_value_00_highest_possible_offset_value_0_and_first_unique_character_a
-    skip
-    encryptor.stub :key, ("00521") do
+    rotator.stub :a_rotation, (00) do
       assert_equal "a", encryptor.message_encrypt_a("010100", "a not")
     end
   end
 
   def test_message_encrypt_a_works_for_highest_possible_rotation_value_99_highest_possible_offset_value_9_and_last_unique_character_of_comma
-    skip
-    encryptor.stub :key, ("99521") do
+    rotator.stub :a_rotation, (99) do
       assert_equal 3, encryptor.message_encrypt_a("020315", ",not")
     end
   end
 
   def test_message_encrypt_b_works
-    skip
-    encryptor.stub :key, ("41521") do
+    rotator.stub :b_rotation, (15) do
       assert_equal 5, encryptor.message_encrypt_b("020315", "not ")
     end
   end
 
   def test_message_encrypt_c_works
-    skip
-    encryptor.stub :key, ("41521") do
+    rotator.stub :c_rotation, (52) do
       assert_equal 8, encryptor.message_encrypt_c("020315", "not ")
     end
   end
 
   def test_message_encrypt_d_works
-    skip
-    encryptor.stub :key, ("41521") do
+    rotator.stub :d_rotation, (21) do
       assert_equal "x", encryptor.message_encrypt_d("020315", "not ")
     end
   end
 
   def test_first_four_characters_as_a_group_encrypts
-    skip
-    encryptor.stub :key, ("41521") do
-      assert_equal ["y",5,8,"x"], encryptor.batch_encrypt("020315", "not ")
+    rotator.stub :a_rotation, (41) do
+      rotator.stub :b_rotation, (15) do
+        rotator.stub :c_rotation, (52) do
+          rotator.stub :d_rotation, (21) do
+            assert_equal ["y",5,8,"x"], encryptor.batch_encrypt("020315", "not ")
+          end
+        end
+      end
     end
   end
 
   def test_message_splits_into_four_char_arrays
-    skip
     assert_equal "t.", encryptor.split_into_batches("what the what.")[-1]
   end
 
   def test_can_encrypt_two_batches
-    skip
-    encryptor.stub :key, ("41521") do
-      assert_equal "yvt3y58x", encryptor.encrypting("020315", "neednot ")
+    rotator.stub :a_rotation, (41) do
+      rotator.stub :b_rotation, (15) do
+        rotator.stub :c_rotation, (52) do
+          rotator.stub :d_rotation, (21) do
+            assert_equal "yvt3y58x", encryptor.encrypting("020315", "neednot ")
+          end
+        end
+      end
     end
   end
+
 end
