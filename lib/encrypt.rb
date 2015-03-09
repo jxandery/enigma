@@ -1,59 +1,5 @@
-class Rotator
-  attr_reader :key
-
-  def initialize
-    @key = key
-  end
-
-  def key
-    new_key = (0..99999).to_a.sample
-    new_key.to_s.rjust(5,"0")
-  end
-
-  def a_rotation
-    key[0..1].to_i
-  end
-
-   def b_rotation
-    key[1..2].to_i
-  end
-
-   def c_rotation
-    key[2..3].to_i
-  end
-
-  def d_rotation
-    key[3..4].to_i
-  end
-
-end
-
-class Offset
-
-  def squares_date(date)
-      (date.to_i) **2
-  end
-
-  def a_offset(date)
-    offsets = squares_date(date).to_s.chars
-    offsets[-4].to_i
-  end
-
-  def b_offset(date)
-    offsets = squares_date(date).to_s.chars
-    offsets[-3].to_i
-  end
-
-  def c_offset(date)
-    offsets = squares_date(date).to_s.chars
-    offsets[-2].to_i
-  end
-
-  def d_offset(date)
-    offsets = squares_date(date).to_s.chars
-    offsets[-1].to_i
-  end
-end
+require_relative 'rotator'
+require_relative 'offset'
 
 class Encrypt
   attr_reader :character_map, :encrypted_message, :rotator, :offset
@@ -66,7 +12,7 @@ class Encrypt
   end
 
   def character_map
-    char_map = ("a".."z").to_a + (0..9).to_a
+    char_map = ("a".."z").to_a + ("0".."9").to_a
     char_map << " "
     char_map << "."
     char_map << ","
@@ -86,7 +32,7 @@ class Encrypt
   end
 
   def check_for_invalid_chars(message)
-    characters = message.chars
+    characters = message.downcase.chars
     characters.map do |char|
       if character_map.include?(char)
         true
@@ -97,9 +43,7 @@ class Encrypt
   end
 
   def invalidate_message(message)
-    if check_for_invalid_chars(message).include?(false)
-      "invalid character in message"
-    end
+    check_for_invalid_chars(message).include?(false)
   end
 
   def message_encrypt_a(date, message)
@@ -130,7 +74,11 @@ class Encrypt
   end
 
   def split_into_batches(message)
-    message.scan /.{1,4}/
+    if invalidate_message(message.downcase)
+      "invalid character in message"
+    else
+      message.downcase.scan /.{1,4}/
+    end
   end
 
   def encrypting(date, message)
@@ -138,7 +86,8 @@ class Encrypt
     batches.map do |batch|
       @encrypted_message << batch_encrypt(date, batch)
     end
+    puts rotator.key
     @encrypted_message = encrypted_message.join
-    end
+  end
 
  end
