@@ -43,52 +43,56 @@ class Decrypt
     end
   end
 
-  def invalidate_message(message)
+  def invalid_message(message)
     check_for_invalid_chars(message).include?(false)
   end
 
-  def message_decrypt_a(date, message)
-    index_position =  rotator.a_rotation + offset.a_offset(date) + character_to_index_key(message[0])
+  def message_decrypt_a(date, message, key)
+    index_position =  rotator.a_rotation(key) + offset.a_offset(date) + character_to_index_key(message[0])
     character_map[index_position]
   end
 
-  def message_decrypt_b(date, message)
-    index_position =  rotator.b_rotation + offset.b_offset(date) + character_to_index_key(message[1])
+  def message_decrypt_b(date, message, key)
+    index_position =  rotator.b_rotation(key) + offset.b_offset(date) + character_to_index_key(message[1])
     character_map[index_position]
   end
 
-  def message_decrypt_c(date, message)
-    index_position =  rotator.c_rotation + offset.c_offset(date) + character_to_index_key(message[2])
+  def message_decrypt_c(date, message, key)
+    index_position =  rotator.c_rotation(key) + offset.c_offset(date) + character_to_index_key(message[2])
     character_map[index_position]
   end
 
-  def message_decrypt_d(date, message)
-    index_position =  rotator.d_rotation + offset.d_offset(date) + character_to_index_key(message[3])
-    character_map[index_position]
+  def message_decrypt_d(date, message, key)
+    if character_to_index_key(message[3])
+      index_position =  rotator.d_rotation(key) + offset.d_offset(date) + character_to_index_key(message[3])
+      character_map[index_position]
+    end
   end
 
-  def batch_decrypt(date, message)
-    batch = [message_decrypt_a(date, message),
-    message_decrypt_b(date, message),
-    message_decrypt_c(date, message),
-    message_decrypt_d(date, message)]
+  def batch_decrypt(date, message, key)
+    batch = [message_decrypt_a(date, message, key),
+    message_decrypt_b(date, message, key),
+    message_decrypt_c(date, message, key),
+    message_decrypt_d(date, message, key)]
   end
 
   def split_into_batches(message)
-    if invalidate_message(message.downcase)
-      "invalid character in message"
-    else
       message.downcase.scan /.{1,4}/
-    end
   end
 
-  def decrypting(date, message)
+  def decrypting(date, message, key)
     batches = split_into_batches(message)
     batches.map do |batch|
-      @decrypted_message << batch_decrypt(date, batch)
+      @decrypted_message << batch_decrypt(date, batch, key)
     end
-    puts rotator.key
-    @decrypted_message = decrypted_message.join
+    decrypted_message.join
   end
 
- end
+  def decrypt(date, message, key)
+    if invalid_message(message.downcase)
+      "invalid character in message"
+    else
+      decrypting(date, message, key)
+    end
+  end
+end

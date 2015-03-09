@@ -1,29 +1,29 @@
 class Rotator
-  attr_reader :key
+#  attr_reader :key
 
-  def initialize
-    @key = key
-  end
+#  def initialize
+#    @key = key
+#  end
 
-  def key
-    new_key = (0..99999).to_a.sample
-    new_key.to_s.rjust(5,"0")
-  end
+#  def generate_key
+#    new_key = (0..99999).to_a.sample
+#    new_key.to_s.rjust(5,"0")
+#  end
 
-  def a_rotation
+  def a_rotation(key)
     key[0..1].to_i
   end
 
-   def b_rotation
+   def b_rotation(key)
     key[1..2].to_i
   end
 
-   def c_rotation
+   def c_rotation(key)
     key[2..3].to_i
   end
 
-  def d_rotation
+  def d_rotation(key)
     key[3..4].to_i
   end
-  
+
 end
