@@ -116,4 +116,15 @@ class DecryptTest < Minitest::Test
     assert_equal "we all need to get some korean bbq at daegee", decryptor.decrypt("020315", "7vm0w2mapvsx45m6p mfz3txv564l4m1m7m04os0pxt4", "41521")
   end
 
+  def test_can_decrypt_when_length_is_not_multiple_of_four_and_has_three_chars_in_last_element
+    assert_equal "hello w", decryptor.decrypt("030915", ".fq4f.1", "23814")
+  end
+
+  def test_can_decrypt_when_length_is_not_multiple_of_four_and_has_two_chars_in_last_element
+    assert_equal "hello ", decryptor.decrypt("030915", ".fq4f.", "23814")
+  end
+
+  def test_can_decrypt_when_length_is_not_multiple_of_four_and_has_one_char_in_last_element
+    assert_equal "hello", decryptor.decrypt("030915", ".fq4f", "23814")
+  end
 end

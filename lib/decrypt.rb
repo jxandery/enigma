@@ -53,13 +53,17 @@ class Decrypt
   end
 
   def message_decrypt_b(date, message, key)
-    index_position =  rotator.b_rotation(key) + offset.b_offset(date) + character_to_index_key(message[1])
-    character_map[index_position]
+    if character_to_index_key(message[1])
+      index_position =  rotator.b_rotation(key) + offset.b_offset(date) + character_to_index_key(message[1])
+      character_map[index_position]
+    end
   end
 
   def message_decrypt_c(date, message, key)
-    index_position =  rotator.c_rotation(key) + offset.c_offset(date) + character_to_index_key(message[2])
-    character_map[index_position]
+    if character_to_index_key(message[2])
+      index_position =  rotator.c_rotation(key) + offset.c_offset(date) + character_to_index_key(message[2])
+      character_map[index_position]
+    end
   end
 
   def message_decrypt_d(date, message, key)
