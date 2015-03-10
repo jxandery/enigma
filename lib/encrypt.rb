@@ -42,7 +42,7 @@ class Encrypt
     end
   end
 
-  def invalidate_message(message)
+  def invalid_message(message)
     check_for_invalid_chars(message).include?(false)
   end
 
@@ -74,11 +74,7 @@ class Encrypt
   end
 
   def split_into_batches(message)
-    if invalidate_message(message.downcase)
-      "invalid character in message"
-    else
-      message.downcase.scan /.{1,4}/
-    end
+    message.downcase.scan /.{1,4}/
   end
 
   def encrypting(date, message)
@@ -86,8 +82,15 @@ class Encrypt
     batches.map do |batch|
       @encrypted_message << batch_encrypt(date, batch)
     end
-    puts rotator.key
     @encrypted_message = encrypted_message.join
+  end
+
+  def encrypt(date, message)
+    if invalid_message(message.downcase)
+      "invalid character in message"
+    else
+      encrypting(date, message)
+    end
   end
 
  end

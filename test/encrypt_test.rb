@@ -27,7 +27,7 @@ class EncryptTest < Minitest::Test
   end
 
   def test_message_only_contains_valid_characters
-     assert_equal "invalid character in message", encryptor.split_into_batches("$not")
+     assert_equal true, encryptor.invalid_message("$not")
   end
 
   def test_character_to_index_position_key_returns_correct_value
