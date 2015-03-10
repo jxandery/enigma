@@ -127,4 +127,9 @@ class DecryptTest < Minitest::Test
   def test_can_decrypt_when_length_is_not_multiple_of_four_and_has_one_char_in_last_element
     assert_equal "hello", decryptor.decrypt("030915", ".fq4f", "23814")
   end
+
+  def test_can_decrypt_more_messages
+    assert_equal "we all need to get some korean bbq at daegee", decryptor.decrypt("020315", ".jfh,4l9zs0zgxrwj9mm8", "49684")
+  end
+
 end

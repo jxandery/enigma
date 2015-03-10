@@ -9,12 +9,17 @@ class Encrypt
     @encrypted_message = []
     @rotator = rotator
     @offset = Offset.new
-    @key = key
+    @key = generate_key
   end
 
-  def key
+  def generate_key
     new_key = (0..99999).to_a.sample
-    new_key.to_s.rjust(5,"0")
+    @key = new_key.to_s.rjust(5,"0")
+    # do i need an @key assignment here
+    # i have a feeling this is where the problem is, the key that is
+    # coming back in the runner file must be wrong
+    # there are a couple of keys, are they each calling the key method,
+    # and thus generating a new key. unclear?
   end
 
   def character_map
@@ -101,6 +106,7 @@ class Encrypt
     if invalid_message(message.downcase)
       "invalid character in message"
     else
+      puts key
       encrypting(date, message)
     end
   end
