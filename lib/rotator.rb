@@ -1,14 +1,4 @@
 class Rotator
-#  attr_reader :key
-
-#  def initialize
-#    @key = key
-#  end
-
-#  def generate_key
-#    new_key = (0..99999).to_a.sample
-#    new_key.to_s.rjust(5,"0")
-#  end
 
   def a_rotation(key)
     key[0..1].to_i

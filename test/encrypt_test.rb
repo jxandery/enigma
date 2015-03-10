@@ -48,6 +48,18 @@ class EncryptTest < Minitest::Test
     end
   end
 
+  def test_combine_number_of_positions_moved_and_message_returns_correct_value_aka_message_encrypt_a_works_with_key_stubbed
+    # this might be where it's fucked up
+    # once encrypted, it doesn't seem to be decrypting back to the same message
+    # a_rotation was stubbed out, so the tests are passing
+    # but that doesn't mean it is reading the keys correctly, so
+    # try stubbing the key. that may identify the problem
+    #
+    encryptor.stub :key, ("41521") do
+      assert_equal "y", encryptor.message_encrypt_a("020315", "not ")
+    end
+  end
+
   def test_combine_number_of_positions_moved_and_message_returns_correct_value_aka_message_encrypt_a_works
     rotator.stub :a_rotation, (41) do
       assert_equal "y", encryptor.message_encrypt_a("020315", "not ")
@@ -149,6 +161,42 @@ class EncryptTest < Minitest::Test
           end
         end
       end
+    end
+  end
+
+  def test_it_encrypts_inside_an_if_statement
+    rotator.stub :a_rotation, (41) do
+      rotator.stub :b_rotation, (15) do
+        rotator.stub :c_rotation, (52) do
+          rotator.stub :d_rotation, (21) do
+            assert_equal "7vm0w2mapvsx45m6p mfz3txv564l4m1m7m04os0pxt4", encryptor.encrypt("020315", "We all need to get some Korean BBQ at Daegee")
+          end
+        end
+      end
+    end
+  end
+
+  def test_it_returns_invalid_message_character_check_elevated
+    rotator.stub :a_rotation, (41) do
+      rotator.stub :b_rotation, (15) do
+        rotator.stub :c_rotation, (52) do
+          rotator.stub :d_rotation, (21) do
+            assert_equal "invalid character in message", encryptor.encrypt("020315", "We all need to get some Korean BBQ at Daegee!")
+          end
+        end
+      end
+    end
+  end
+
+  def test_it_returns_encrypted_message_with_key_stubbed
+    encryptor.stub :key, ("41521") do
+      assert_equal "y", encryptor.encrypt("020315", "why are you not working")
+    end
+  end
+
+  def test_it_returns_encrypted_message_with_key_stubbed_and_ends_with_decoder_ring
+    encryptor.stub :key, ("41521") do
+      assert_equal "y", encryptor.encrypt("020315", "oh, happy day ..end..")
     end
   end
 

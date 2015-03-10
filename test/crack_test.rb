@@ -2,6 +2,7 @@ gem 'minitest', '~> 5.2'
 require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/decrypt'
+require_relative '../lib/encrypt'
 require_relative '../lib/crack'
 
 class CrackTest < Minitest::Test
@@ -20,6 +21,7 @@ class CrackTest < Minitest::Test
   end
 
   def test_it_can_figure_out_when_decoder_starts_on_rotation_a
+    skip
     assert_equal "p", crack.starting_point("oh, happy day")
   end
 
@@ -27,10 +29,15 @@ class CrackTest < Minitest::Test
   # it'll look at the last 7 characters
   # it'll use the current date and start the key at 00000
   # it'll run the decrypt algorithm until the last 7 characters == ..end..
+
+  def test_it_encrypts_properly
+    encryption = Encrypt.new
+    assert_equal "", encryption.encrypt("090315", "oh, happy day ..end..")
+  end
+
   def test_it_decrypts_one_letter
     skip
-    decrypt = Decrypt.new
-    assert_equal "", decrypt.decrypt("090315", "g")
+    assert_equal "..end..", crack.crack("090315", "y234yiuu", "95690")
   end
 
 end
