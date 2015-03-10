@@ -49,12 +49,6 @@ class EncryptTest < Minitest::Test
   end
 
   def test_combine_number_of_positions_moved_and_message_returns_correct_value_aka_message_encrypt_a_works_with_key_stubbed
-    # this might be where it's fucked up
-    # once encrypted, it doesn't seem to be decrypting back to the same message
-    # a_rotation was stubbed out, so the tests are passing
-    # but that doesn't mean it is reading the keys correctly, so
-    # try stubbing the key. that may identify the problem
-    #
     encryptor.stub :key, ("41521") do
       assert_equal "y", encryptor.message_encrypt_a("020315", "not ")
     end
@@ -190,13 +184,13 @@ class EncryptTest < Minitest::Test
 
   def test_it_returns_encrypted_message_with_key_stubbed
     encryptor.stub :key, ("41521") do
-      assert_equal "y", encryptor.encrypt("020315", "why are you not working")
+      assert_equal "7yaxl8tx959xy58x756 t4v", encryptor.encrypt("020315", "why are you not working")
     end
   end
 
   def test_it_returns_encrypted_message_with_key_stubbed_and_ends_with_decoder_ring
     encryptor.stub :key, ("41521") do
-      assert_equal "y", encryptor.encrypt("020315", "oh, happy day ..end..")
+      assert_equal "zyoxsr4c9os09onyp4syj", encryptor.encrypt("020315", "oh, happy day ..end..")
     end
   end
 

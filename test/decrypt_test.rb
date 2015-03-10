@@ -128,8 +128,8 @@ class DecryptTest < Minitest::Test
     assert_equal "hello", decryptor.decrypt("030915", ".fq4f", "23814")
   end
 
-  def test_can_decrypt_more_messages
-    assert_equal "we all need to get some korean bbq at daegee", decryptor.decrypt("020315", ".jfh,4l9zs0zgxrwj9mm8", "49684")
+  def test_can_decrypt_with_messages_the_end_at_the_end
+    assert_equal "we all need to get some korean bbq at daegee ..end..", decryptor.decrypt("030915", "q0lgf7lt.0rdn lm.clyi8sde 5k79lh8,lgntrg.2sk4umkhzme", "65901")
   end
 
 end

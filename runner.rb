@@ -17,3 +17,8 @@ date3 = "030915"
 key3 = "88340"
 message3 = "5o9dyhmvceagce8evuaep"
 puts example3.decrypt(date3, message3, key3)
+
+example4 = Encrypt.new
+message4 = "we all need to get some korean bbq at daegee ..end.."
+date4 = "030915"
+puts "Created 'encrypted.txt' with the key #{example4.key} and date #{date4}. The encrypted message is #{example4.encrypt(date4, message4)}"
