@@ -62,6 +62,7 @@ class CrackTest < Minitest::Test
   end
 
   def test_it_subtracts_revers_shift_from_potential_index_position_of_decoder_in_a
+    skip
     assert_equal [-37, 2, 41, 81], crack.possible_rotations("020315", "j", ".")
   end
 
