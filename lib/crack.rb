@@ -2,7 +2,7 @@ require_relative './decrypt'
 require 'pry'
 
 class Crack
-  attr_reader :cracker, :counter, :indexes, :offset #:decoder
+  attr_reader :cracker, :counter, :offset #:decoder
 
   def initialize
     @counter = "00000"
@@ -27,9 +27,10 @@ class Crack
   # end
 
   def index_positions(message)
+      indexes = []
       cracker.character_map.each_with_index do |char, index|
         if char == message
-          @indexes << index
+          indexes << index
         end
       end
       indexes

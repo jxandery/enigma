@@ -1,8 +1,9 @@
 require_relative 'rotator'
 require_relative 'offset'
+require 'pry'
 
 class Encrypt
-  attr_reader :character_map, :encrypted_message, :rotator, :offset, :key
+  attr_reader :character_map, :encrypted_message, :rotator, :offset, :key, :message_string, :encrypted_file
 
   def initialize(rotator = Rotator.new)
     @character_map = character_map
@@ -10,6 +11,9 @@ class Encrypt
     @rotator = rotator
     @offset = Offset.new
     @key = generate_key
+    message_file = File.open("./#{ARGV[0]}", "r")
+    @message_string = message_file.read
+    @encrypted_file = File.open("./#{ARGV[1]}", "w")
   end
 
   def generate_key
@@ -98,12 +102,19 @@ class Encrypt
   end
 
   def encrypt(date, message)
+    message.delete!("\n")
+    message.delete!('\\"')
     if invalid_message(message.downcase)
-      "invalid character in message"
+      encrypted_file.puts "invalid character in message"
+      encrypted_file.close
     else
-      puts key
-      encrypting(date, message)
+      encrypted_file.puts encrypting(date, message)
+      encrypted_file.close
     end
   end
 
  end
+
+encrypt_this_shit = Encrypt.new
+encrypt_this_shit.encrypt("030915", encrypt_this_shit.message_string)
+

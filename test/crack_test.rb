@@ -58,11 +58,10 @@ class CrackTest < Minitest::Test
   end
 
   def test_it_uses_the_date_and_adds_the_a_offset
-    assert_equal 38, crack.reverse_shift("020315", "j")
+    assert_equal 38, crack.reverse_shift("021315", "k")
   end
 
   def test_it_subtracts_revers_shift_from_potential_index_position_of_decoder_in_a
-    skip
     assert_equal [-37, 2, 41, 81], crack.possible_rotations("020315", "j", ".")
   end
 
